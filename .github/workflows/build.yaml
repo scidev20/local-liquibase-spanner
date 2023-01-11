@@ -1,0 +1,32 @@
+name: Build Artifact
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build_java:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [8, 11]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: ${{matrix.java}}
+      - name: Java Version
+        run: java -version
+      #      - name: Tests
+      #        run: mvn -B test
+      - name: Build Artifact
+        run: ./gradlew --no-daemon -PtagVersion=4.17.2-${{matrix.java}} build shadowJar
+        # run: mvn -B package -Dmaven.test.skip
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: liquibase-spanner
+          path: build/libs/*.jar
