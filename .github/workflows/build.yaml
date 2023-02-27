@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - support-wif
+  release:
+    types:
+      - published
 
 jobs:
   build_java:
@@ -18,10 +21,6 @@ jobs:
         with:
           distribution: zulu
           java-version: ${{matrix.java}}
-      - name: Java Version
-        run: |
-          java -version
-          git branch
       #      - name: Tests
       #        run: mvn -B test
       - name: Build Artifact
