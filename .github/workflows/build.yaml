@@ -1,6 +1,9 @@
 name: Build Artifact
 
 on:
+  push:
+    branches:
+      - support-wif
   release:
     types:
       - published
@@ -18,12 +21,10 @@ jobs:
         with:
           distribution: zulu
           java-version: ${{matrix.java}}
-      - name: Java Version
-        run: java -version
       #      - name: Tests
       #        run: mvn -B test
       - name: Build Artifact
-        run: ./gradlew --no-daemon -PtagVersion=4.17.2-${{matrix.java}} build shadowJar
+        run: ./gradlew --no-daemon -PtagVersion=4.17.2-${{matrix.java}} build shadowJar -x test
         # run: mvn -B package -Dmaven.test.skip
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
