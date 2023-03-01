@@ -24,7 +24,7 @@ jobs:
       #      - name: Tests
       #        run: mvn -B test
       - name: Build Artifact
-        run: ./gradlew --no-daemon -PtagVersion=4.17.2-${{matrix.java}} build shadowJar -x test
+        run: ./gradlew --no-daemon -PtagVersion=4.19.0-${{matrix.java}} build shadowJar -x test
         # run: mvn -B package -Dmaven.test.skip
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
